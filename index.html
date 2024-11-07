@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Management System</title>
+    <style>
+        * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+    background-image: url(https://happenings.lpu.in/wp-content/uploads/2022/10/Lovely-Professional-University-LPU.-scaled.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+#loginForm{
+    margin: 100px;
+    height: 400px;
+    
+
+}
+.login{
+    color: rgb(13, 255, 13);
+    text-align: center;
+    font-size: 30px;
+}
+
+.container {
+    background-image: url(https://happenings.lpu.in/wp-content/uploads/2024/09/Lovely-Professional-University-LPU-campus-1-scaled.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color:silver;
+
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+    
+}
+
+h1, h2 {
+    color: white;
+    margin-bottom: 15px;
+}
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+input, select, button {
+    padding: 10px;
+    margin: 5px 0;
+    width: 100%;
+    font-size: 16px;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #882160;
+    color: red;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    
+}
+
+
+.submit-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color:palevioletred;
+    color: red;
+}
+
+
+.mark-btn {
+    background-color: #17a2b8;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.mark-btn:hover {
+    background-color: #1c9613;
+    color: red;
+}
+
+.details-btn {
+    background-color: #ffc107;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.details-btn:hover {
+    background-color:pink;
+    color: red;
+}
+
+.records{
+    color: red;
+}
+.data{
+    color: red;
+}
+.para{
+    color: rgb(215, 107, 220);
+    padding-top: 10px;
+    padding-bottom: 30px;
+    font-size: 20px;
+}
+#confirmationPage{
+    height: 300px;
+    
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Attendance Management System</h1>
+
+        
+        <div id="loginForm">
+            <h2 class="login">Login</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <p id="errorMsg"></p>
+        </div>
+
+        
+        <div id="attendanceSystem" style="display: none;">
+            
+            <div class="form-section">
+                <h2>Add Student</h2>
+                <input type="text" id="studentName" placeholder="Enter student name">
+                <button onclick="addStudent()">Add Student</button>
+            </div>
+
+            
+            <form id="attendanceForm" onsubmit="submitAttendanceForm(event)">
+                <div class="form-section">
+                    <h2>Mark Attendance</h2>
+                    <select id="studentList" required>
+                        <option value="">Select a student</option>
+                        <option value="Alok Raj">Alok Raj</option>
+                        <option value="Prashant">Prashant</option>
+                        <option value="Rohan">Rohan</option>
+                        <option value="Mohan">Mohan</option>
+                        <option value="Shyam">Shyam</option>
+                        <option value="Aditya">Aditya</option>
+                        <option value="Ravi">Ravi</option>
+                        <option value="Krishna">Krishna</option>
+                        <option value="Vivek">Vivek</option>
+
+                    </select>
+                    <input type="date" id="attendanceDate" required>
+                    <select id="attendanceStatus" required>
+                        <option value="Select">Select</option>
+                        <option value="Present">Present</option>
+                        <option value="Absent">Absent</option>
+                    </select>
+
+                    
+                    <button type="button" class="mark-btn" onclick="markAttendance()">Mark Attendance</button>
+
+                    
+                    <button type="submit" class="submit-btn">Submit</button>
+                </div>
+            </form>
+
+            
+            <div class="form-section">
+                <h2>Attendance Records</h2>
+                <table style="background-color: blanchedalmond;" id="attendanceTable">
+                    <thead>
+                        <tr>
+                            <th class="records">Student Name</th>
+                            <th class="records">Date</th>
+                            <th class="records">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            
+            <div class="form-section">
+                <h2>Student Attendance Details</h2>
+                <select id="studentDetailsList">
+                    <option value="">Select a student</option>
+                    <option value="Alok Raj">Alok Raj</option>
+                    <option value="Prashant">Prashant</option>
+                    <option value="Rohan">Rohan</option>
+                    <option value="Mohan">Mohan</option>
+                    <option value="Shyam">Shyam</option>
+                    <option value="Aditya">Aditya</option>
+                    <option value="Ravi">Ravi</option>
+                    <option value="Krishna">Krishna</option>
+                    <option value="Vivek">Vivek</option>
+                </select>
+                <button class="details-btn" onclick="showStudentDetails()">Show Details</button>
+
+                <table style="background-color: beige;" id="studentDetailsTable">
+                    <thead>
+                        <tr>
+                            <th class="data">Date</th>
+                            <th class="data">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="confirmationPage" style="display: none;">
+            <h2>Submission Successful</h2>
+            <p class="para">Your data has been Successfully Submitted to the Office.</p>
+            <button onclick="returnToHome()">Return to Home</button>
+        </div>
+    </div>
+
+    <script>
+        
+ function login() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const errorMsg = document.getElementById("errorMsg");
+
+    if (username && password) {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("attendanceSystem").style.display = "block";
+        alert("Login details matched successfully")
+        alert("Congratulation")
+    } else {
+        errorMsg.textContent = "Please enter both username and password.";
+        alert("login details is invalid")
+        alert("Please enter correct  username and password")
+
+    }
+}
+
+
+let students={
+    "Alok Raj": {},
+    "Prashant": {},
+    "Rohan": {},
+    "Mohan": {},
+    "Shyam": {},
+    "Aditya": {},
+    "Ravi": {},
+    "Krishna": {},
+    "Vivek": {}
+}
+let attendanceRecords = [];
+
+function addStudent() {
+    const studentName = document.getElementById("studentName").value;
+    if (studentName === "") {
+        alert("Please enter a student name.");
+        return;
+    }
+
+    if (students[studentName]) {
+        alert("Student already exists!");
+        return;
+    }
+
+    students[studentName] = {};
+
+    const studentList = document.getElementById("studentList");
+    const studentDetailsList = document.getElementById("studentDetailsList");
+    const option = document.createElement("option");
+    option.value = studentName;
+    option.textContent = studentName;
+    studentList.appendChild(option);
+    studentDetailsList.appendChild(option.cloneNode(true));
+
+    document.getElementById("studentName").value = "";
+    alert(`Student ${studentName} added.`);
+}
+
+function markAttendance() {
+    const studentName = document.getElementById("studentList").value;
+    const attendanceDate = document.getElementById("attendanceDate").value;
+    const attendanceStatus = document.getElementById("attendanceStatus").value;
+
+    if (!studentName || !attendanceDate || !attendanceStatus) {
+        alert("Please select student, date, and status.");
+        return;
+    }
+
+    if (!students[studentName]) {
+        alert("Student not found!");
+        return;
+    }
+
+    students[studentName][attendanceDate] = attendanceStatus;
+    attendanceRecords.push({ studentName, date: attendanceDate, status: attendanceStatus });
+
+    updateAttendanceTable();
+
+    document.getElementById("attendanceDate").value = "";
+    document.getElementById("attendanceStatus").value = "present";
+}
+
+function submitAttendanceForm(event) {
+    event.preventDefault();
+    alert("Attendance submitted for all students!");
+    document.getElementById("attendanceSystem").style.display = "none";
+    document.getElementById("confirmationPage").style.display = "block";
+}
+function returnToHome() {
+    document.getElementById("confirmationPage").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+}
+
+function updateAttendanceTable() {
+    const tableBody = document.getElementById("attendanceTable").getElementsByTagName("tbody")[0];
+    tableBody.innerHTML = ""; 
+
+    attendanceRecords.forEach(record => {
+        const row = document.createElement("tr");
+
+        const studentCell = document.createElement("td");
+        studentCell.textContent = record.studentName;
+        row.appendChild(studentCell);
+
+        const dateCell = document.createElement("td");
+        dateCell.textContent = record.date;
+        row.appendChild(dateCell);
+
+        const statusCell = document.createElement("td");
+        statusCell.textContent = record.status;
+        row.appendChild(statusCell);
+
+        tableBody.appendChild(row);
+    });
+}
+
+function showStudentDetails() {
+    const studentName = document.getElementById("studentDetailsList").value;
+    if (!studentName) {
+        alert("Please select a student.");
+        return;
+    }
+
+    const studentAttendance = students[studentName];
+    const tableBody = document.getElementById("studentDetailsTable").getElementsByTagName("tbody")[0];
+    tableBody.innerHTML = "";
+
+    for (let date in studentAttendance) {
+        const row = document.createElement("tr");
+
+        const dateCell = document.createElement("td");
+        dateCell.textContent = date;
+        row.appendChild(dateCell);
+
+        const statusCell = document.createElement("td");
+        statusCell.textContent = studentAttendance[date];
+        row.appendChild(statusCell);
+
+        tableBody.appendChild(row);
+    }
+}
+    </script>
+</body>
+</html>
